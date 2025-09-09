@@ -24,7 +24,7 @@ const PROXY_PATH_REWRITE_FROM = process.env.PROXY_PATH_REWRITE_FROM;
 const PROXY_PATH_REWRITE_TO = process.env.PROXY_PATH_REWRITE_TO;
 
 // Add port constant
-const OHIF_PORT = Number(process.env.OHIF_PORT || 3000);
+const OHIF_PORT = Number(process.env.OHIF_PORT || 80);
 const OHIF_OPEN = process.env.OHIF_OPEN !== 'false';
 
 export default defineConfig({
@@ -136,8 +136,9 @@ export default defineConfig({
     open: OHIF_OPEN,
     // Configure proxy
     proxy: {
-      '/dicomweb': {
+      '/api': {
         target: 'http://localhost:5000',
+        changeOrigin: true,
       },
       // Add conditional proxy based on env vars
       ...(PROXY_TARGET && PROXY_DOMAIN
